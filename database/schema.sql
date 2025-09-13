@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS referrals (
+    id SERIAL PRIMARY KEY,
+    candidate_name VARCHAR(255) NOT NULL,
+    candidate_skills TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
