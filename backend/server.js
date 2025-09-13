@@ -59,3 +59,28 @@ app.post('/api/referrals', async (req, res) => {
 app.listen(port, () => {
   console.log(`Server lauscht auf http://localhost:${port}`);
 });
+
+app.patch('/api/referrals/:id', async (req, res) => {
+  try {
+    const { id } = req.params; 
+    const { status } = req.body;
+
+    if (!status) {
+      return res.status(400).json({ message: 'Status is required' });
+    }
+
+    const updateQuery = 'UPDATE referrals SET status = $1 WHERE id = $2 RETURNING *';
+    const updatedReferral = await pool.query(updateQuery, [status, id]);
+
+    if (updatedReferral.rows.length === 0) {
+      return res.status(404).json({ message: 'Referral not found' });
+    }
+
+    console.log('Status updated:', updatedReferral.rows[0]);
+    res.json(updatedReferral.rows[0]);
+
+  } catch (err) {
+    console.error('Error updating status:', err.message);
+    res.status(500).json({ message: 'Server error while updating status.' });
+  }
+});

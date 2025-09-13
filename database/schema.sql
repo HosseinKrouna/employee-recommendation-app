@@ -4,3 +4,6 @@ CREATE TABLE IF NOT EXISTS referrals (
     candidate_skills TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE referrals
+ADD COLUMN status VARCHAR(50) NOT NULL DEFAULT 'Eingegangen';

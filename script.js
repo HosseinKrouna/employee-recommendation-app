@@ -9,7 +9,7 @@ async function fetchAndDisplayReferrals() {
     const response = await fetch('http://localhost:3001/api/referrals');
     const referrals = await response.json();
 
-    referralsListContainer.innerHTML = '';
+    referralsListContainer.innerHTML = ''; 
 
     if (referrals.length === 0) {
       referralsListContainer.textContent = 'Noch keine Empfehlungen vorhanden.';
@@ -21,25 +21,69 @@ async function fetchAndDisplayReferrals() {
       const itemContainer = document.createElement('div');
       itemContainer.className = 'referral-item';
 
-      const nameElement = document.createElement('strong');
-      nameElement.textContent = 'Kandidat: ';
+      const infoDiv = document.createElement('div');
+      
+      const nameLabel = document.createElement('strong');
+      nameLabel.textContent = 'Kandidat: ';
+      const nameText = document.createTextNode(referral.candidate_name); 
 
-      const nameText = document.createTextNode(referral.candidate_name);
-
-      const skillsElement = document.createElement('span');
-      skillsElement.textContent = 'Skills: '; 
-
+      const skillsLabel = document.createElement('strong');
+      skillsLabel.textContent = 'Skills: ';
       const skillsText = document.createTextNode(referral.candidate_skills); 
 
+      infoDiv.appendChild(nameLabel);
+      infoDiv.appendChild(nameText);
+      infoDiv.appendChild(document.createElement('br'));
+      infoDiv.appendChild(skillsLabel);
+      infoDiv.appendChild(skillsText);
+
     
-      itemContainer.appendChild(nameElement);
-      itemContainer.appendChild(nameText);
-      itemContainer.appendChild(document.createElement('br'));
-      itemContainer.appendChild(skillsElement);
-      itemContainer.appendChild(skillsText);
+      const statusDiv = document.createElement('div');
+
+      const statusLabel = document.createElement('strong');
+      statusLabel.textContent = 'Status: ';
+      
+      const statusSelect = document.createElement('select');
+      statusSelect.dataset.id = referral.id;
+      statusSelect.className = 'status-select';
+      
+      const statuses = ['Eingegangen', 'In Bearbeitung', 'Angenommen', 'Abgelehnt'];
+      statuses.forEach(status => {
+        const option = document.createElement('option');
+        option.value = status;
+        option.textContent = status; 
+        if (referral.status === status) {
+          option.selected = true;
+        }
+        statusSelect.appendChild(option);
+      });
+
+      statusDiv.appendChild(statusLabel);
+      statusDiv.appendChild(statusSelect);
+
+      itemContainer.appendChild(infoDiv);
+      itemContainer.appendChild(statusDiv);
 
       referralsListContainer.appendChild(itemContainer);
 
+     
+    });
+
+
+    document.querySelectorAll('.status-select').forEach(selectElement => {
+      selectElement.addEventListener('change', async (event) => {
+        const newStatus = event.target.value;
+        const referralId = event.target.dataset.id;
+        try {
+          await fetch(`http://localhost:3001/api/referrals/${referralId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: newStatus })
+          });
+        } catch (error) {
+          console.error('Fehler beim Updaten des Status:', error);
+        }
+      });
     });
 
   } catch (error) {
