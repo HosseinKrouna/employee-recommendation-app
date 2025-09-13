@@ -9,21 +9,32 @@
 
   <body>
     <div class="form-container">
-      <h1>Neue Empfehlung einreichen</h1>
-      <p>Bitte fülle die Daten des Kandidaten aus.</p>
+      <form id="referral-form">
+        <h1>Neue Empfehlung einreichen</h1>
+        <p>Bitte fülle die Daten des Kandidaten aus.</p>
 
-      <div>
-        <label for="candidate-name">Name des Kandidaten:</label>
-        <input type="text" id="candidate-name" />
-      </div>
+        <div>
+          <label for="candidate-name">Name des Kandidaten:</label>
+          <input type="text" id="candidate-name" />
+        </div>
 
-      <div>
-        <label for="candidate-skills">Skills:</label>
-        <input type="text" id="candidate-skills" />
-      </div>
+        <div>
+          <label for="candidate-skills">Skills:</label>
+          <input type="text" id="candidate-skills" />
+        </div>
 
-      <button>Empfehlung abschicken</button>
+        <button type="submit">Empfehlung abschicken</button>
+      </form>
     </div>
+
+    <div class="list-container">
+      <hr />
+      <h2>Bisherige Empfehlungen</h2>
+      <div id="referrals-list">
+        <p>Lade Empfehlungen...</p>
+      </div>
+    </div>
+
     <script src="script.js"></script>
   </body>
 </html>

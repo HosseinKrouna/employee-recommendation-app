@@ -14,6 +14,21 @@ app.get('/', (req, res) => {
 });
 
 
+app.get('/api/referrals', async (req, res) => {
+  try {
+    const query = 'SELECT * FROM referrals ORDER BY created_at DESC';
+
+    const allReferrals = await pool.query(query);
+
+    res.json(allReferrals.rows);
+
+  } catch (err) {
+    console.error('Fehler beim Abrufen der Daten:', err.message);
+    res.status(500).json({ message: 'Serverfehler beim Abrufen der Daten.' });
+  }
+});
+
+
 app.post('/api/referrals', async (req, res) => {
   try {
     
