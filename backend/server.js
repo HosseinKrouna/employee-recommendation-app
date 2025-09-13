@@ -84,3 +84,25 @@ app.patch('/api/referrals/:id', async (req, res) => {
     res.status(500).json({ message: 'Server error while updating status.' });
   }
 });
+
+
+app.delete('/api/referrals/:id', async (req, res) => {
+  try {
+    const { id } = req.params; 
+
+    const deleteQuery = 'DELETE FROM referrals WHERE id = $1 RETURNING *';
+    const result = await pool.query(deleteQuery, [id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Referral not found' });
+    }
+
+    console.log('Referral deleted:', result.rows[0]);
+   
+    res.status(200).json({ message: 'Referral successfully deleted' });
+
+  } catch (err) {
+    console.error('Error deleting referral:', err.message);
+    res.status(500).json({ message: 'Server error while deleting referral.' });
+  }
+});

@@ -18,56 +18,82 @@ async function fetchAndDisplayReferrals() {
 
     referrals.forEach(referral => {
 
-      const itemContainer = document.createElement('div');
-      itemContainer.className = 'referral-item';
+ 
+  const itemContainer = document.createElement('div');
+  itemContainer.className = 'referral-item';
 
-      const infoDiv = document.createElement('div');
-      
-      const nameLabel = document.createElement('strong');
-      nameLabel.textContent = 'Kandidat: ';
-      const nameText = document.createTextNode(referral.candidate_name); 
+  const infoDiv = document.createElement('div');
+  const statusDiv = document.createElement('div');
 
-      const skillsLabel = document.createElement('strong');
-      skillsLabel.textContent = 'Skills: ';
-      const skillsText = document.createTextNode(referral.candidate_skills); 
+  const nameLabel = document.createElement('strong');
+  nameLabel.textContent = 'Kandidat: ';
+  const nameText = document.createTextNode(referral.candidate_name);
 
-      infoDiv.appendChild(nameLabel);
-      infoDiv.appendChild(nameText);
-      infoDiv.appendChild(document.createElement('br'));
-      infoDiv.appendChild(skillsLabel);
-      infoDiv.appendChild(skillsText);
+  const skillsLabel = document.createElement('strong');
+  skillsLabel.textContent = 'Skills: ';
+  const skillsText = document.createTextNode(referral.candidate_skills);
+
+  infoDiv.appendChild(nameLabel);
+  infoDiv.appendChild(nameText);
+  infoDiv.appendChild(document.createElement('br'));
+  infoDiv.appendChild(skillsLabel);
+  infoDiv.appendChild(skillsText);
+
+  const statusLabel = document.createElement('strong');
+  statusLabel.textContent = 'Status: ';
+
+  const statusSelect = document.createElement('select');
+  statusSelect.dataset.id = referral.id;
+  statusSelect.className = 'status-select';
+  
+  const statuses = ['Eingegangen', 'In Bearbeitung', 'Angenommen', 'Abgelehnt'];
+  statuses.forEach(status => {
+    const option = document.createElement('option');
+    option.value = status;
+    option.textContent = status;
+    if (referral.status === status) {
+      option.selected = true;
+    }
+    statusSelect.appendChild(option);
+  });
+
+  statusDiv.appendChild(statusLabel);
+  statusDiv.appendChild(statusSelect);
+
+  const deleteButton = document.createElement('button');
+  deleteButton.textContent = 'Löschen';
+  deleteButton.className = 'delete-button';
+  deleteButton.dataset.id = referral.id;
+
+
+  itemContainer.appendChild(infoDiv);
+  itemContainer.appendChild(statusDiv);
+  itemContainer.appendChild(deleteButton);
+
+  referralsListContainer.appendChild(itemContainer);
+});
+
+     document.querySelectorAll('.delete-button').forEach(button => {
+    button.addEventListener('click', async (event) => {
+      const referralId = event.target.dataset.id;
 
     
-      const statusDiv = document.createElement('div');
+      if (!confirm('Bist du sicher, dass du diese Empfehlung löschen möchtest?')) {
+        return;
+      }
 
-      const statusLabel = document.createElement('strong');
-      statusLabel.textContent = 'Status: ';
-      
-      const statusSelect = document.createElement('select');
-      statusSelect.dataset.id = referral.id;
-      statusSelect.className = 'status-select';
-      
-      const statuses = ['Eingegangen', 'In Bearbeitung', 'Angenommen', 'Abgelehnt'];
-      statuses.forEach(status => {
-        const option = document.createElement('option');
-        option.value = status;
-        option.textContent = status; 
-        if (referral.status === status) {
-          option.selected = true;
-        }
-        statusSelect.appendChild(option);
-      });
+      try {
+        await fetch(`http://localhost:3001/api/referrals/${referralId}`, {
+          method: 'DELETE'
+        });
 
-      statusDiv.appendChild(statusLabel);
-      statusDiv.appendChild(statusSelect);
-
-      itemContainer.appendChild(infoDiv);
-      itemContainer.appendChild(statusDiv);
-
-      referralsListContainer.appendChild(itemContainer);
-
-     
+        fetchAndDisplayReferrals(); 
+      } catch (error) {
+        console.error('Fehler beim Löschen:', error);
+        alert('Löschen fehlgeschlagen.');
+      }
     });
+  });
 
 
     document.querySelectorAll('.status-select').forEach(selectElement => {
