@@ -54,14 +54,14 @@ router.post('/login', async (req, res) => {
 
     if (!user) {
    
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: 'E-Mail oder Passwort ist ungültig.' });
     }
 
    
     const isPasswordCorrect = await bcrypt.compare(password, user.password_hash);
 
     if (!isPasswordCorrect) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: 'E-Mail oder Passwort ist ungültig.' });
     }
 
     const payload = {
@@ -72,7 +72,7 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign(
       payload,
       process.env.JWT_SECRET,
-      { expiresIn: '1h' } 
+      { expiresIn: '1h' }
     );
 
     console.log(`User ${user.email} logged in successfully.`);

@@ -55,3 +55,19 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+#error-message {
+  color: #d93025;
+  margin-bottom: 15px;
+  min-height: 1.2em; 
+}
+
+.input-error {
+  border-color: #d93025;
+}
+
+#logout-button {
+    text-align: right;
+    padding: 10px;
+}
+
