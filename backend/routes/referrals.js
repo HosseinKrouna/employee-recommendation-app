@@ -1,6 +1,7 @@
 const express = require('express');
 const pool = require('../db')
 const authenticateToken = require('../middleware/authenticateToken');
+const authorizeRole = require('../middleware/authorizeRole');
 
 
 const router = express.Router(); 
@@ -51,7 +52,7 @@ router.post('/', async (req, res) => {
 });
 
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', authorizeRole(['hr']), async (req, res) => {
   try {
     const { id } = req.params; 
     const { status } = req.body;
