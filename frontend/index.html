@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mitarbeiter-Empfehlung</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header>
+        <h1>Empfehlungs-Dashboard</h1>
+        <button id="logout-button">Logout</button>
+      </header>
+
+      <div class="card">
+        <h2>Neue Empfehlung einreichen</h2>
+        <form id="referral-form">
+          <div>
+            <label for="candidate-name">Name des Kandidaten:</label>
+            <input type="text" id="candidate-name" required />
+          </div>
+          <div>
+            <label for="candidate-skills">Skills:</label>
+            <input type="text" id="candidate-skills" />
+          </div>
+          <button type="submit">Empfehlung abschicken</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Bisherige Empfehlungen</h2>
+        <div id="referrals-list">
+          <p>Lade Empfehlungen...</p>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="/script.js"></script>
+  </body>
+</html>

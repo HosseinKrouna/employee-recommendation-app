@@ -1,0 +1,156 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+:root {
+    --primary-color: #007bff;
+    --primary-color-hover: #0056b3;
+    --background-color: #f4f7f9;
+    --card-background-color: #ffffff;
+    --text-color: #333333;
+    --label-color: #555555;
+    --border-color: #dddddd;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+    --error-color: #d93025;
+}
+
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+.card {
+    background-color: var(--card-background-color);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 6px 20px var(--shadow-color);
+    margin-bottom: 2rem;
+}
+
+h1, h2 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+}
+
+p {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    color: var(--label-color);
+}
+
+form div {
+    margin-bottom: 1rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--label-color);
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: var(--primary-color-hover);
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+#error-message {
+  color: var(--error-color);
+  text-align: center;
+  min-height: 1.2em;
+  margin-bottom: 1rem;
+}
+
+.input-error {
+  border-color: var(--error-color);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    margin: 0;
+    text-align: left;
+    font-size: 1.8rem;
+}
+
+#logout-button {
+    width: auto;
+    padding: 8px 16px;
+}
+
+
+.referral-item {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.referral-item div:first-child {
+    flex-grow: 1;
+}
+
+.referral-item button, .referral-item select {
+    width: auto;
+    flex-shrink: 0;
+}
