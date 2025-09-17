@@ -14,3 +14,6 @@ CREATE TABLE users (
     password_hash VARCHAR(255) NOT NULL,
     role VARCHAR(50) NOT NULL DEFAULT 'employee'
 );
+
+ALTER TABLE referrals
+ADD COLUMN user_id INTEGER REFERENCES users(id);
