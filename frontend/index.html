@@ -16,14 +16,56 @@
       <div class="card">
         <h2>Neue Empfehlung einreichen</h2>
         <form id="referral-form">
-          <div>
-            <label for="candidate-name">Name des Kandidaten:</label>
-            <input type="text" id="candidate-name" required />
-          </div>
-          <div>
-            <label for="candidate-skills">Skills:</label>
-            <input type="text" id="candidate-skills" />
-          </div>
+          <fieldset>
+            <legend>Persönliche Infos</legend>
+            <div>
+              <label for="firstName">Vorname</label>
+              <input type="text" id="firstName" required />
+            </div>
+            <div>
+              <label for="lastName">Nachname</label>
+              <input type="text" id="lastName" />
+            </div>
+            <div>
+              <label for="email">E-Mail</label>
+              <input type="email" id="email" />
+            </div>
+            <div>
+              <label for="contactSource">Woher kennt ihr euch?</label>
+              <input type="text" id="contactSource" />
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Eckdaten zur Position</legend>
+            <div>
+              <label for="preferredPosition">Bevorzugte Position</label>
+              <input type="text" id="preferredPosition" />
+            </div>
+            <div>
+              <label for="yearsOfExperience">Berufserfahrung (in Jahren)</label>
+              <input type="number" id="yearsOfExperience" />
+            </div>
+            <div>
+              <label for="salaryExpectation"
+                >Gehaltsvorstellung (pro Jahr in €)</label
+              >
+              <input type="text" id="salaryExpectation" />
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Skills</legend>
+            <div>
+              <label for="skills">Top Skills (z.B. React, Java, SQL)</label>
+              <input
+                type="text"
+                id="skills"
+                placeholder="Komma-getrennt eingeben"
+              />
+            </div>
+          </fieldset>
+
           <button type="submit">Empfehlung abschicken</button>
         </form>
       </div>
@@ -35,6 +77,6 @@
         </div>
       </div>
     </main>
-    <script type="module" src="/script.js"></script>
+    <script type="module" src="/app.js"></script>
   </body>
 </html>

@@ -26,25 +26,46 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const { candidateName, candidateSkills } = req.body;
-    const userId = req.user.userId; 
+ 
+    const {
+      firstName, lastName, email, phoneNumber, contactSource,
+      preferredPosition, employmentStatus, currentPosition, careerLevel,
+      yearsOfExperience, noticePeriod, salaryExpectation,
+      skills
+    } = req.body;
+    
+    const userId = req.user.userId;
 
     const insertQuery = `
-      INSERT INTO referrals (candidate_name, candidate_skills, user_id) 
-      VALUES ($1, $2, $3) 
+      INSERT INTO referrals (
+        first_name, last_name, email, phone_number, contact_source,
+        preferred_position, employment_status, current_position, career_level,
+        years_of_experience, notice_period, salary_expectation,
+        skills, user_id
+      ) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) 
       RETURNING *;
     `;
+
+    const values = [
+      firstName, lastName, email, phoneNumber, contactSource,
+      preferredPosition, employmentStatus, currentPosition, careerLevel,
+      yearsOfExperience, noticePeriod, salaryExpectation,
+      skills ? JSON.stringify(skills) : null,
+      userId
+    ];
     
-   
-    const newReferral = await pool.query(insertQuery, [candidateName, candidateSkills, userId]);
+    const newReferral = await pool.query(insertQuery, values);
     
     res.status(201).json(newReferral.rows[0]);
 
   } catch (err) {
-    console.error('Fehler beim Speichern in der DB:', err.message);
-    res.status(500).json({ message: 'Serverfehler beim Speichern der Daten.' });
+    console.error('Error creating referral:', err.message);
+    res.status(500).json({ message: 'Server error while creating referral.' });
   }
 });
+
+
 
 
 router.patch('/:id', authorizeRole(['hr']), async (req, res) => {
