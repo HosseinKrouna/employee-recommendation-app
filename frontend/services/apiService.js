@@ -21,5 +21,6 @@ export const apiService = {
     getReferrals: () => fetchAuthenticated('/referrals'),
     createReferral: (data) => fetchAuthenticated('/referrals', { method: 'POST', body: JSON.stringify(data) }),
     updateReferralStatus: (id, status) => fetchAuthenticated(`/referrals/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) }),
-    deleteReferral: (id) => fetchAuthenticated(`/referrals/${id}`, { method: 'DELETE' })
+    deleteReferral: (id) => fetchAuthenticated(`/referrals/${id}`, { method: 'DELETE' }),
+    getReferralPdf: (id) => fetchAuthenticated(`/referrals/${id}/pdf`)
 };

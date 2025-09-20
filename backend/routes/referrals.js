@@ -119,4 +119,52 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+
+const PDFDocument = require('pdfkit'); 
+
+router.get('/:id/pdf', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+   
+    const result = await pool.query('SELECT * FROM referrals WHERE id = $1', [id]);
+    const referral = result.rows[0];
+
+    if (!referral) {
+      return res.status(404).json({ message: 'Referral not found' });
+    }
+
+   
+    const doc = new PDFDocument({ margin: 50 });
+
+    const filename = `Empfehlung_${referral.first_name}_${referral.last_name}.pdf`;
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+
+    doc.pipe(res);
+
+    doc.fontSize(20).text('Mitarbeiter werben Mitarbeiter', { align: 'center' });
+    doc.moveDown(2);
+
+    doc.fontSize(16).text('Persönliche Infos', { underline: true });
+    doc.moveDown();
+    doc.fontSize(12).text(`Name: ${referral.first_name} ${referral.last_name || ''}`);
+    doc.text(`E-Mail: ${referral.email || 'N/A'}`);
+    doc.moveDown();
+
+    doc.fontSize(16).text('Eckdaten zur Position', { underline: true });
+    doc.moveDown();
+    doc.fontSize(12).text(`Bevorzugte Position: ${referral.preferred_position || 'N/A'}`);
+    doc.text(`Gehaltsvorstellung: ${referral.salary_expectation || 'N/A'}`);
+    doc.moveDown();
+    
+    doc.end();
+
+  } catch (err) {
+    console.error('Error generating PDF:', err.message);
+    res.status(500).json({ message: 'Server error while generating PDF.' });
+  }
+});
+
+
 module.exports = router;
