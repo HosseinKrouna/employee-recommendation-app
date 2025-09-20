@@ -43,11 +43,47 @@ function addDynamicListeners() {
         await apiService.updateReferralStatus(e.target.dataset.id, e.target.value);
         refreshReferrals();
     }));
+
     dom.listContainer.querySelectorAll('.delete-button').forEach(el => el.addEventListener('click', async (e) => {
         if (!confirm('Bist du sicher?')) return;
         const response = await apiService.deleteReferral(e.target.dataset.id);
         if (response.ok) refreshReferrals();
     }));
+
+    dom.listContainer.querySelectorAll('.pdf-button').forEach(button => {
+        button.addEventListener('click', async (event) => {
+            const referralId = event.target.dataset.id;
+            try {
+                const response = await apiService.getReferralPdf(referralId);
+                
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    
+                    const contentDisposition = response.headers.get('content-disposition');
+                    let fileName = `empfehlung_${referralId}.pdf`; // Fallback-Name
+                    if (contentDisposition) {
+                        const fileNameMatch = contentDisposition.match(/filename="(.+)"/);
+                        if (fileNameMatch && fileNameMatch.length === 2)
+                            fileName = fileNameMatch[1];
+                    }
+                    a.download = fileName;
+                    
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    a.remove();
+                } else {
+                    alert('PDF konnte nicht erstellt werden.');
+                }
+            } catch (error) {
+                console.error('Fehler beim PDF-Download:', error);
+            }
+        });
+    });
 }
 
 async function handleFormSubmit(event) {

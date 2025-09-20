@@ -26,6 +26,12 @@ export function createReferralItem(referral, config) {
     const statusDiv = document.createElement('div');
     statusDiv.innerHTML = `<strong>Status: </strong>`;
 
+    const pdfButton = document.createElement('button');
+    pdfButton.textContent = 'PDF';
+    pdfButton.className = 'pdf-button';
+    pdfButton.dataset.id = referral.id;
+
+
     if (config.userRole === 'hr') {
         const select = document.createElement('select');
         select.dataset.id = referral.id;
@@ -44,6 +50,7 @@ export function createReferralItem(referral, config) {
 
     itemContainer.appendChild(infoDiv);
     itemContainer.appendChild(statusDiv);
+    itemContainer.appendChild(pdfButton);
 
     if (config.userRole === 'employee' && referral.user_id === config.userId && referral.status === 'Eingegangen') {
         const button = document.createElement('button');
