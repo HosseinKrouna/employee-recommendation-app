@@ -8,8 +8,11 @@ const app = express();
 const port = 3001;
 
 
-app.use(cors());
-app.use(express.json());
+const corsOptions = {
+  origin: 'employee-recommendation-app.vercel.app'
+};
+
+app.use(cors(corsOptions));app.use(express.json());
 
 app.use('/api/referrals', referralRoutes);
 app.use('/api/auth', authRoutes);
