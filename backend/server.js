@@ -9,7 +9,7 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 const corsOptions = {
-  origin: 'employee-recommendation-app.vercel.app'
+  origin: 'https://employee-recommendation-app.vercel.app'
 };
 
 app.use(cors(corsOptions));app.use(express.json());
