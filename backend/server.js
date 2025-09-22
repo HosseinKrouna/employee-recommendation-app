@@ -17,6 +17,6 @@ app.use(cors(corsOptions));app.use(express.json());
 app.use('/api/referrals', referralRoutes);
 app.use('/api/auth', authRoutes);
 
-app.listen(port, () => {
-  console.log(`Server lauscht auf http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server lauscht auf Port ${port}`);
 });
