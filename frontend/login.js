@@ -1,14 +1,16 @@
 
-(function gatekeeper() {
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
+
+
+(function checkAuthentication() {
     const token = localStorage.getItem('token');
     if (token) {
         window.location.href = 'index.html';
-        return; 
+        return;
     }
 })();
 
 const loginForm = document.querySelector('#login-form');
-
 
 if (loginForm) {
     const emailInput = document.querySelector('#email');
@@ -29,7 +31,8 @@ if (loginForm) {
             const email = emailInput.value;
             const password = passwordInput.value;
 
-            const response = await fetch('http://localhost:3001/api/auth/login', {
+           
+            const response = await fetch(`${API_BASE_URL}/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })
@@ -48,7 +51,6 @@ if (loginForm) {
             if (passwordInput) passwordInput.value = '';
             if (emailInput) emailInput.classList.add('input-error');
             if (passwordInput) passwordInput.classList.add('input-error');
-            
         } finally {
             if (submitButton) {
                 submitButton.disabled = false;
