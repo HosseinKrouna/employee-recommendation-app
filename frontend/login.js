@@ -1,13 +1,9 @@
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
 
-
 (function checkAuthentication() {
     const token = localStorage.getItem('token');
-    if (token) {
-        window.location.href = 'index.html';
-        return;
-    }
+    if (token) window.location.href = 'index.html';
 })();
 
 const loginForm = document.querySelector('#login-form');
@@ -31,7 +27,6 @@ if (loginForm) {
             const email = emailInput.value;
             const password = passwordInput.value;
 
-           
             const response = await fetch(`${API_BASE_URL}/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
